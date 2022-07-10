@@ -8,6 +8,7 @@ import { MaterialModule } from './material.module';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { BrandCarHttpService } from './services/brand-car-http.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     MaterialModule,
     RouterModule
   ],
-  providers: [],
+  providers: [BrandCarHttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
