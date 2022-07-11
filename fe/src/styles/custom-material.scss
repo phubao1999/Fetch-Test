@@ -1,0 +1,19 @@
+.checkbox-common {
+  .mat-checkbox-inner-container {
+    width: 24px;
+    height: 24px;
+  }
+  &.circle {
+    .mat-checkbox-background,
+    .mat-checkbox-frame {
+      border-radius: 999px;
+    }
+  }
+}
+
+
+.mat-form-field {
+  &.full-width {
+    width: 100%;
+  }
+}

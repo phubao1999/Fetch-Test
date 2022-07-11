@@ -1,0 +1,76 @@
+<div class="nav">
+  <div class="header">
+    <div class="title">Add Car Brand</div>
+    <div class="description">Setup new car brand</div>
+  </div>
+  <div class="close" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </div>
+</div>
+<div class="input-zone">
+  <div class="brand-logo">
+    <div class="title">Brand Logo</div>
+    <div class="personal-image">
+      <label class="label">
+        <input
+          #imageInput
+          type="file"
+          accept="image/*"
+          (change)="processFile(imageInput)"
+        />
+        <figure *ngIf="!selectedFile?.src" class="personal-figure">
+          <div class="icon">
+            <mat-icon>add</mat-icon>
+          </div>
+          <div class="input-description">Brand Logo</div>
+        </figure>
+        <figure *ngIf="selectedFile?.src" class="personal-figure">
+          <img [src]="selectedFile?.src" alt="Brand Logo" />
+        </figure>
+      </label>
+    </div>
+  </div>
+  <div class="brand-details">
+    <div class="title">Brand Details</div>
+    <div class="box">
+      <div class="form">
+        <div class="one-item">
+          <div class="label">Brand Name</div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput placeholder="Input Content" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form">
+        <div class="one-item">
+          <div class="label">Brand Status</div>
+          <mat-form-field appearance="outline">
+            <mat-select>
+              <mat-option
+                *ngFor="let status of statusOptions"
+                [value]="status.value"
+              >
+                {{ status.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="one-item">
+      <div class="label">Brand Description</div>
+      <mat-form-field
+        class="example-full-width full-width"
+        appearance="outline"
+      >
+        <textarea matInput placeholder="Input Content"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="dialog-action">
+    <button class="margin-x" mat-raised-button (click)="closeDialog()">
+      Cancel
+    </button>
+    <button mat-raised-button color="primary">Create Brand</button>
+  </div>
+</div>
