@@ -28,6 +28,15 @@ export class BrandCarHttpService {
     return this.http.post<HttpBaseResponse<any>>(this.baseUrl, body);
   }
 
+  updateBrand(
+    id: string,
+    body: BrandRequest
+  ): Observable<HttpBaseResponse<any>> {
+    const url = `${this.baseUrl}/${id}`;
+
+    return this.http.put<HttpBaseResponse<any>>(url, body);
+  }
+
   private mappingListBrand(
     data: HttpBaseResponse<any>
   ): HttpBaseResponse<CarBrand[]> {

@@ -7,7 +7,10 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { finalize, Subject } from 'rxjs';
-import { BRAND_STATUS } from 'src/app/constants/brand-status.contants';
+import {
+  BRAND_STATUS,
+  TOTAL_MODEL_DEFAULT,
+} from 'src/app/constants/brand-status.contants';
 import { BrandRequest } from 'src/app/interface/brand-request.interface';
 import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
 import { getCurrentTime } from './../../utils/utils';
@@ -26,7 +29,6 @@ export class AddDashboardComponent implements OnInit, OnDestroy {
     { viewValue: 'Active', value: BRAND_STATUS.ACTIVE },
     { viewValue: 'Inactive', value: BRAND_STATUS.INACTIVE },
   ];
-  readonly totalModel = 1200;
 
   selectedFile: ImageSnippet | undefined;
   formAdd: FormGroup;
@@ -75,7 +77,7 @@ export class AddDashboardComponent implements OnInit, OnDestroy {
       status: this.formAdd.get('brandStatus')?.value,
       brandDescription: this.formAdd.get('brandDescription')?.value,
       brandLogo: this.formAdd.get('brandLogo')?.value,
-      totalModel: this.totalModel,
+      totalModel: TOTAL_MODEL_DEFAULT,
       updateAt: getCurrentTime(),
     };
     this.brandCarHttp

@@ -1,5 +1,3 @@
-import { ErrorDialogService } from './../../shared/services/error-dialog.service';
-import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -9,8 +7,15 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
-import { BRAND_STATUS } from 'src/app/constants/brand-status.contants';
+import {
+  BRAND_STATUS,
+  TOTAL_MODEL_DEFAULT,
+} from 'src/app/constants/brand-status.contants';
+import { BrandRequest } from 'src/app/interface/brand-request.interface';
 import { CarBrand } from 'src/app/interface/car-brand.interface';
+import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
+import { getCurrentTime } from 'src/app/utils/utils';
+import { ErrorDialogService } from './../../shared/services/error-dialog.service';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -92,6 +97,28 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
     this.router.navigate(['dashboard']);
   }
 
+  updateBrand(): void {
+    this.showLoading = true;
+    const body: BrandRequest = {
+      brandName: this.formAdd.get('brandName')?.value,
+      status: this.formAdd.get('brandStatus')?.value,
+      brandDescription: this.formAdd.get('brandDescription')?.value,
+      brandLogo: this.formAdd.get('brandLogo')?.value,
+      totalModel: TOTAL_MODEL_DEFAULT,
+      updateAt: getCurrentTime(),
+    };
+    this.brandCarHttpService
+      .updateBrand(this.brandDetails.id, body)
+      .pipe(finalize(() => (this.showLoading = false)))
+      .subscribe((res) => {
+        if (res.code === 200) {
+          this.screenAction = this.MODE.VIEW;
+          this.brandDetails = this.mappingDataDetails(body);
+          alert(res.message);
+        }
+      });
+  }
+
   private getDetailsBrand(): void {
     this.showLoading = true;
     this.brandCarHttpService
@@ -104,7 +131,6 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
             content: data.message,
           });
         } else {
-          console.log(data.data[0]);
           this.brandDetails = data.data[0];
         }
       });
@@ -120,5 +146,17 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
       ),
       brandDescription: new FormControl('', Validators.required),
     });
+  }
+
+  private mappingDataDetails(req: BrandRequest): CarBrand {
+    return {
+      id: this.brandDetails.id,
+      brandName: req.brandName,
+      brandDescription: req.brandDescription,
+      brandLogo: req.brandLogo,
+      totalModel: req.totalModel,
+      updateAt: req.updateAt,
+      status: req.status,
+    };
   }
 }

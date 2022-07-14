@@ -1,9 +1,9 @@
 export interface CarBrand {
-  id: number;
+  id: string;
   brandName: string;
   brandDescription: string;
   brandLogo: string;
   totalModel: number;
-  updateAt: Date;
+  updateAt: string;
   status: string;
 }
