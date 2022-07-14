@@ -37,6 +37,12 @@ export class BrandCarHttpService {
     return this.http.put<HttpBaseResponse<any>>(url, body);
   }
 
+  deleteBrand(id: string): Observable<HttpBaseResponse<any>> {
+    const url = `${this.baseUrl}/${id}`;
+
+    return this.http.delete<HttpBaseResponse<any>>(url);
+  }
+
   private mappingListBrand(
     data: HttpBaseResponse<any>
   ): HttpBaseResponse<CarBrand[]> {

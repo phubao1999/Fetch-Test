@@ -100,7 +100,7 @@
       }
     }
     &__status {
-      background-color: #FAFAFA;
+      background-color: #fafafa;
       display: flex;
       align-items: center;
       &.active {
@@ -117,17 +117,14 @@
         border-radius: 50%;
         background-color: $secondary;
         margin-left: 1rem;
-
       }
       .status {
-        margin: .5rem 1rem;
+        margin: 0.5rem 1rem;
         color: $secondary;
-
       }
     }
   }
 }
-
 
 .to-center {
   display: flex;
@@ -140,4 +137,8 @@
   align-items: center;
   justify-content: center;
   height: 90vh;
+}
+
+.mx-2 {
+  margin: 0 2em;
 }

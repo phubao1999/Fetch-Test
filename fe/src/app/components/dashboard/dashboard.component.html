@@ -23,7 +23,6 @@
       >
         + Add Brand
       </button>
-      <button mat-raised-button color="primary">- Delete Brand</button>
     </div>
   </div>
 
@@ -56,6 +55,9 @@
         <div class="status">{{ brand.status }}</div>
       </div>
       <div class="brands__item__details">
+        <button class="mx-2" mat-raised-button color="warn" (click)="deleteBrand(brand)">
+          Delete
+        </button>
         <button mat-stroked-button (click)="toDetails(brand)">
           View Details
         </button>

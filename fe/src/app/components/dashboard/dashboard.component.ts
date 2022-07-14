@@ -56,6 +56,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate([`details/${item.id}`]);
   }
 
+  deleteBrand(item: CarBrand): void {
+    this.showLoading = true;
+    this.brandCarHttp
+      .deleteBrand(item.id)
+      .pipe(finalize(() => (this.showLoading = false)))
+      .subscribe((res) => {
+        const index = this.listBrand.indexOf(item);
+        if (index > -1) {
+          this.listBrand.splice(index, 1);
+        }
+        alert(res.message);
+      });
+  }
+
   private getNewListBrand(): void {
     this.brandCarHttp
       .getBrands()
