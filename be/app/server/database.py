@@ -7,64 +7,60 @@ MONGO_DETAILS = config("MONGO_DETAILS")
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
-database = client.students
+database = client.brand
 
-student_collection = database.get_collection("students_collection")
-
-# helpers
+brand_collection = database.get_collection("brand_collection")
 
 
-def student_helper(student) -> dict:
+# Helper
+
+def brand_helper(brand) -> dict:
     return {
-        "id": str(student["_id"]),
-        "fullname": student["fullname"],
-        "email": student["email"],
-        "course_of_study": student["course_of_study"],
-        "year": student["year"],
-        "GPA": student["gpa"],
+        "id": str(brand["_id"]),
+        "brandName": str(brand["brandName"]),
+        "brandDescription": str(brand["brandDescription"]),
+        "brandLogo": str(brand["brandLogo"]),
+        "totalModel": int(brand["totalModel"]),
+        "updateAt": str(brand["updateAt"]),
+        "status": str(brand["status"]),
     }
 
 
-# Retrieve all students present in the database
-async def retrieve_students():
-    students = []
-    async for student in student_collection.find():
-        students.append(student_helper(student))
-    return students
+async def add_brand(brand_data: dict) -> dict:
+    brand = await brand_collection.insert_one(brand_data)
+    new_brand = await brand_collection.find_one({"_id": brand.inserted_id})
+    return brand_helper(new_brand)
 
 
-# Add a new student into to the database
-async def add_student(student_data: dict) -> dict:
-    student = await student_collection.insert_one(student_data)
-    new_student = await student_collection.find_one({"_id": student.inserted_id})
-    return student_helper(new_student)
+async def retrieve_brands():
+    brands = []
+    async for brand in brand_collection.find():
+        brands.append(brand_helper(brand))
+    return brands
 
 
-# Retrieve a student with a matching ID
-async def retrieve_student(id: str) -> dict:
-    student = await student_collection.find_one({"_id": ObjectId(id)})
-    if student:
-        return student_helper(student)
+async def retrieve_brand(id: str) -> dict:
+    brand = await brand_collection.find_one({"_id": ObjectId(id)})
+    if brand:
+        return brand_helper(brand)
 
 
-# Update a student with a matching ID
-async def update_student(id: str, data: dict):
+async def update_brand(id: str, data: dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
-    student = await student_collection.find_one({"_id": ObjectId(id)})
-    if student:
-        updated_student = await student_collection.update_one(
+    brand = await brand_collection.find_one({"_id": ObjectId(id)})
+    if brand:
+        updated_brand = await brand_collection.update_one(
             {"_id": ObjectId(id)}, {"$set": data}
         )
-        if updated_student:
+        if updated_brand:
             return True
         return False
 
 
-# Delete a student from the database
-async def delete_student(id: str):
-    student = await student_collection.find_one({"_id": ObjectId(id)})
-    if student:
-        await student_collection.delete_one({"_id": ObjectId(id)})
+async def delete_brand(id: str):
+    brand = await brand_collection.find_one({"_id": ObjectId(id)})
+    if brand:
+        await brand_collection.delete_one({"_id": ObjectId(id)})
         return True
