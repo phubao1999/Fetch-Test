@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body
+from typing import Union
 from fastapi.encoders import jsonable_encoder
 
 from app.server.database import (
@@ -6,7 +7,8 @@ from app.server.database import (
     retrieve_brands,
     retrieve_brand,
     update_brand,
-    delete_brand
+    delete_brand,
+    search_brands
 )
 
 from app.server.models.brand import (
@@ -27,8 +29,11 @@ async def add_brand_data(brand: BrandSchema = Body(...)):
 
 
 @router.get("/", response_description="Brands retrieved")
-async def get_brands():
-    brands = await retrieve_brands()
+async def get_brands(search: Union[str, None] = None):
+    if search:
+        brands = await search_brands(search)
+    else:
+        brands = await retrieve_brands()
     if brands:
         return ResponseModel(brands, "Brands data retrieved successfully")
     return ResponseModel(brands, "Empty list returned")

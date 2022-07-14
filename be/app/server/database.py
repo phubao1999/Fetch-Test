@@ -39,6 +39,13 @@ async def retrieve_brands():
     return brands
 
 
+async def search_brands(search_key: str):
+    brands = []
+    async for brand in brand_collection.find({'brandName': {'$regex': search_key}}):
+        brands.append(brand_helper(brand))
+    return brands
+
+
 async def retrieve_brand(id: str) -> dict:
     brand = await brand_collection.find_one({"_id": ObjectId(id)})
     if brand:
