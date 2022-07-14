@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatInputModule} from '@angular/material/input';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
 })
 export class MaterialModule {}

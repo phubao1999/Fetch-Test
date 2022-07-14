@@ -1,3 +1,4 @@
+<app-loading [showLoading]="showLoading"></app-loading>
 <div class="container mt-3">
   <div class="nav">
     <div class="title">Car Brands List</div>
@@ -14,46 +15,52 @@
       </form>
     </div>
     <div class="button-action">
-      <button class="margin-x" mat-raised-button color="primary">
+      <button
+        class="margin-x"
+        mat-raised-button
+        color="primary"
+        (click)="openAddBrand()"
+      >
         + Add Brand
       </button>
       <button mat-raised-button color="primary">- Delete Brand</button>
     </div>
   </div>
 
-  <div *ngIf="view" class="brands">
-    <div class="brands__item">
+  <div *ngIf="listBrand.length > 0" class="brands">
+    <div *ngFor="let brand of listBrand" class="brands__item">
       <div class="brands__item__logo">
         <mat-checkbox class="checkbox-common circle to-center"></mat-checkbox>
-        <img
-          src="https://img1.pnghut.com/t/18/10/22/684yDCrHPq/brand-area-daihatsu-history-of-toyota-car.jpg"
-          alt="Brand Logo"
-        />
-        <div class="border-right"></div>
+        <img [src]="brand.brandLogo" alt="Brand Logo" />
+        <div
+          [ngClass]="{ active: brand.status == 'Active' }"
+          class="border-right"
+        ></div>
       </div>
       <div class="brands__item__info">
-        <div class="name">Toyota</div>
+        <div class="name">{{ brand.brandName }}</div>
         <div class="description">
-          <span class="more">Jeep Grand Cherokee</span> |
-          <span class="model">1200 Models</span>
+          <span class="more">{{ brand.brandDescription }}</span> |
+          <span class="model">{{ brand.totalModel }} Models</span>
         </div>
       </div>
       <div class="brands__item__update">
         <div class="name">Last Updated</div>
-        <div class="time">
-          25/12/2022
-        </div>
+        <div class="time">{{ brand.updateAt }}</div>
       </div>
-      <div class="brands__item__status">
+      <div
+        [ngClass]="{ active: brand.status == 'Active' }"
+        class="brands__item__status"
+      >
         <div class="circle-status"></div>
-        <div class="status">Inactive</div>
+        <div class="status">{{ brand.status }}</div>
       </div>
       <div class="brands__item__details">
         <button mat-stroked-button>View Details</button>
       </div>
     </div>
   </div>
-  <div class="no-data" *ngIf="!view">
+  <div class="no-data" *ngIf="listBrand.length == 0">
     There is not Brand. Please create new brand
   </div>
 </div>
