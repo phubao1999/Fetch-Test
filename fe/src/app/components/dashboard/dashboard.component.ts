@@ -1,7 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
+import {
+  debounceTime,
+  startWith,
+  distinctUntilChanged,
+  tap,
+} from 'rxjs/operators';
 import { CarBrand } from 'src/app/interface/car-brand.interface';
 import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
 import { AddDashboardComponent } from './../add-dashboard/add-dashboard.component';
@@ -17,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   showLoading = false;
   listBrand: CarBrand[] = [];
+  search = new FormControl();
 
   private readonly destroy$ = new Subject<void>();
 
@@ -34,6 +42,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showLoading = true;
     this.getNewListBrand();
+
+    this.search.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => {
+          this.showLoading = true;
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((data) => {
+        this.brandCarHttp
+          .searchBrand(data)
+          .pipe(finalize(() => (this.showLoading = false)))
+          .subscribe((res) => {
+            this.listBrand = res.data;
+          });
+      });
   }
 
   openAddBrand(): void {

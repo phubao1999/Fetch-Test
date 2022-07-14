@@ -2,16 +2,14 @@
 <div class="container mt-3">
   <div class="nav">
     <div class="title">Car Brands List</div>
-    <!-- <div class="filter-view">
-      <mat-icon aria-hidden="false" aria-label="Example home icon"
-        >keyboard_arrow_down</mat-icon
-      >
-      Update Later
-    </div> -->
     <div class="search">
       <form class="search-box">
         <button type="submit">Search</button>
-        <input type="search" placeholder="Search Car Brand" />
+        <input
+          type="search"
+          placeholder="Search Car Brand"
+          [formControl]="search"
+        />
       </form>
     </div>
     <div class="button-action">
@@ -55,7 +53,12 @@
         <div class="status">{{ brand.status }}</div>
       </div>
       <div class="brands__item__details">
-        <button class="mx-2" mat-raised-button color="warn" (click)="deleteBrand(brand)">
+        <button
+          class="mx-2"
+          mat-raised-button
+          color="warn"
+          (click)="deleteBrand(brand)"
+        >
           Delete
         </button>
         <button mat-stroked-button (click)="toDetails(brand)">
