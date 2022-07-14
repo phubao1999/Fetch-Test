@@ -1,3 +1,4 @@
+import { ErrorDialogService } from './../../shared/services/error-dialog.service';
 import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
@@ -9,6 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { BRAND_STATUS } from 'src/app/constants/brand-status.contants';
+import { CarBrand } from 'src/app/interface/car-brand.interface';
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -34,6 +36,7 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
   screenAction: string = this.MODE.VIEW;
   brandId: string;
   showLoading = false;
+  brandDetails: CarBrand;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -41,7 +44,8 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private brandCarHttpService: BrandCarHttpService
+    private brandCarHttpService: BrandCarHttpService,
+    private errorDialogService: ErrorDialogService
   ) {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.brandId = params['id'];
@@ -74,10 +78,14 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
 
   editMode(isEdit: boolean): void {
     this.screenAction = isEdit ? this.MODE.EDIT : this.MODE.VIEW;
-  }
-
-  addBrand(): void {
-    console.log(this.formAdd.value);
+    if (this.screenAction === this.MODE.EDIT) {
+      this.formAdd.patchValue({
+        brandLogo: this.brandDetails.brandLogo,
+        brandName: this.brandDetails.brandName,
+        brandStatus: this.brandDetails.status,
+        brandDescription: this.brandDetails.brandDescription,
+      });
+    }
   }
 
   toDashBoard(): void {
@@ -90,7 +98,15 @@ export class DetailsBrandComponent implements OnInit, OnDestroy {
       .getDetailsBrand(this.brandId)
       .pipe(finalize(() => (this.showLoading = false)))
       .subscribe((data) => {
-        console.log(data);
+        if (data.code === 404) {
+          this.errorDialogService.openErrorDialog({
+            status: data.code,
+            content: data.message,
+          });
+        } else {
+          console.log(data.data[0]);
+          this.brandDetails = data.data[0];
+        }
       });
   }
 

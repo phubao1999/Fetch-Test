@@ -56,7 +56,9 @@
         <div class="status">{{ brand.status }}</div>
       </div>
       <div class="brands__item__details">
-        <button mat-stroked-button>View Details</button>
+        <button mat-stroked-button (click)="toDetails(brand)">
+          View Details
+        </button>
       </div>
     </div>
   </div>

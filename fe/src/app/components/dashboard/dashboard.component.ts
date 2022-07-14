@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { finalize, Subject } from 'rxjs';
 import { CarBrand } from 'src/app/interface/car-brand.interface';
 import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
@@ -21,7 +22,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private brandCarHttp: BrandCarHttpService,
+    private router: Router,
+    private brandCarHttp: BrandCarHttpService
   ) {}
 
   ngOnDestroy(): void {
@@ -44,5 +46,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       width: '500px',
       disableClose: true,
     });
+  }
+
+  toDetails(item: CarBrand): void {
+    this.router.navigate([`details/${item.id}`]);
   }
 }

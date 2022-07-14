@@ -27,6 +27,9 @@
     padding: 12px 0;
     margin-bottom: 1.5rem;
   }
+  .label {
+    cursor: pointer;
+  }
 }
 
 .personal-image input[type="file"] {
@@ -101,6 +104,7 @@
 }
 
 .image-info {
+  border-radius: 50%;
   width: 120px;
 }
 

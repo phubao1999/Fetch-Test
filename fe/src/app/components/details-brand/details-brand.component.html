@@ -19,22 +19,13 @@
             accept="image/*"
             (change)="processFile(imageInput)"
           />
-          <figure *ngIf="!selectedFile?.src" class="personal-figure">
-            <div class="icon">
-              <mat-icon>add</mat-icon>
-            </div>
-            <div class="input-description">Brand Logo</div>
-          </figure>
-          <figure *ngIf="selectedFile?.src" class="personal-figure">
-            <img [src]="selectedFile?.src" alt="Brand Logo" />
+
+          <figure *ngIf="brandDetails?.brandLogo" class="personal-figure">
+            <img [src]="brandDetails?.brandLogo" alt="Brand Logo" />
           </figure>
         </label>
         <label *ngIf="screenAction === MODE.VIEW" class="label">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png"
-            alt=""
-            class="image-info"
-          />
+          <img [src]="brandDetails?.brandLogo" alt="" class="image-info" />
         </label>
       </div>
     </div>
@@ -62,7 +53,7 @@
               *ngIf="screenAction === MODE.VIEW"
               class="brand-name-info content-info"
             >
-              Dumb Dumb Name
+              {{ brandDetails?.brandName }}
             </div>
           </div>
         </div>
@@ -86,7 +77,7 @@
               *ngIf="screenAction === MODE.VIEW"
               class="brand-status-info content-info"
             >
-              Active
+              {{ brandDetails?.status }}
             </div>
           </div>
         </div>
@@ -113,10 +104,7 @@
           *ngIf="screenAction === MODE.VIEW"
           class="brand-status-description"
         >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum
-          laboriosam amet distinctio recusandae autem sint unde praesentium ab
-          illo aliquid, adipisci fugit perferendis porro quisquam ipsum dolorum
-          repellendus, tenetur hic!
+          {{ brandDetails?.brandDescription }}
         </div>
       </div>
     </div>
@@ -125,6 +113,7 @@
         *ngIf="screenAction === MODE.VIEW"
         mat-raised-button
         color="primary"
+        [disabled]="!brandDetails"
         (click)="editMode(true)"
       >
         Edit Information
