@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 import { CarBrand } from 'src/app/interface/car-brand.interface';
 import { BrandCarHttpService } from 'src/app/services/brand-car-http.service';
 import { AddDashboardComponent } from './../add-dashboard/add-dashboard.component';
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private brandCarHttp: BrandCarHttpService
+    private brandCarHttp: BrandCarHttpService,
   ) {}
 
   ngOnDestroy(): void {
@@ -36,7 +36,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => (this.showLoading = false)))
       .subscribe((data) => {
         this.listBrand = data.data;
-        console.log(this.listBrand);
       });
   }
 

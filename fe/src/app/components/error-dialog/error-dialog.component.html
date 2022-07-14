@@ -1,0 +1,25 @@
+<div class="dialog">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100">
+          Sorry!. There is a {{ data.status }} error.
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">
+          {{ data.content }}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-danger btn-block"
+          data-dismiss="modal"
+          (click)="close()"
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

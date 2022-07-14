@@ -1,1 +1,152 @@
-<p>details-brand works!</p>
+<app-loading [showLoading]="showLoading"></app-loading>
+<div class="container">
+  <div class="nav">
+    <div class="header">
+      <div class="title" (click)="toDashBoard()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+        Brands Details
+      </div>
+    </div>
+  </div>
+  <div class="input-zone" [formGroup]="formAdd">
+    <div class="brand-logo">
+      <div class="title">Brand Logo</div>
+      <div class="personal-image">
+        <label *ngIf="screenAction === MODE.EDIT" class="label">
+          <input
+            #imageInput
+            type="file"
+            accept="image/*"
+            (change)="processFile(imageInput)"
+          />
+          <figure *ngIf="!selectedFile?.src" class="personal-figure">
+            <div class="icon">
+              <mat-icon>add</mat-icon>
+            </div>
+            <div class="input-description">Brand Logo</div>
+          </figure>
+          <figure *ngIf="selectedFile?.src" class="personal-figure">
+            <img [src]="selectedFile?.src" alt="Brand Logo" />
+          </figure>
+        </label>
+        <label *ngIf="screenAction === MODE.VIEW" class="label">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/1200px-BMW.svg.png"
+            alt=""
+            class="image-info"
+          />
+        </label>
+      </div>
+    </div>
+    <div class="brand-details mt-3">
+      <div class="title">Brand Details</div>
+      <div class="box">
+        <div class="form mr-3">
+          <div class="one-item">
+            <div class="label">Brand Name</div>
+            <mat-form-field
+              *ngIf="screenAction === MODE.EDIT"
+              class="example-full-width"
+              appearance="outline"
+            >
+              <input
+                matInput
+                placeholder="Input Content"
+                formControlName="brandName"
+              />
+              <mat-error *ngIf="formAdd.controls['brandName'].invalid">
+                required
+              </mat-error>
+            </mat-form-field>
+            <div
+              *ngIf="screenAction === MODE.VIEW"
+              class="brand-name-info content-info"
+            >
+              Dumb Dumb Name
+            </div>
+          </div>
+        </div>
+        <div class="form">
+          <div class="one-item">
+            <div class="label">Brand Status</div>
+            <mat-form-field
+              *ngIf="screenAction === MODE.EDIT"
+              appearance="outline"
+            >
+              <mat-select formControlName="brandStatus">
+                <mat-option
+                  *ngFor="let status of statusOptions"
+                  [value]="status.value"
+                >
+                  {{ status.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div
+              *ngIf="screenAction === MODE.VIEW"
+              class="brand-status-info content-info"
+            >
+              Active
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="one-item">
+        <div [ngClass]="{ 'mb-4': screenAction === MODE.VIEW }" class="label">
+          Brand Description
+        </div>
+        <mat-form-field
+          *ngIf="screenAction === MODE.EDIT"
+          class="example-full-width full-width"
+          appearance="outline"
+        >
+          <textarea
+            matInput
+            placeholder="Input Content"
+            formControlName="brandDescription"
+          ></textarea>
+          <mat-error *ngIf="formAdd.controls['brandDescription'].invalid">
+            required
+          </mat-error>
+        </mat-form-field>
+        <div
+          *ngIf="screenAction === MODE.VIEW"
+          class="brand-status-description"
+        >
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum
+          laboriosam amet distinctio recusandae autem sint unde praesentium ab
+          illo aliquid, adipisci fugit perferendis porro quisquam ipsum dolorum
+          repellendus, tenetur hic!
+        </div>
+      </div>
+    </div>
+    <div class="dialog-action">
+      <button
+        *ngIf="screenAction === MODE.VIEW"
+        mat-raised-button
+        color="primary"
+        (click)="editMode(true)"
+      >
+        Edit Information
+      </button>
+
+      <button
+        *ngIf="screenAction === MODE.EDIT"
+        mat-raised-button
+        color="primary"
+        class="mr-3"
+        [disabled]="formAdd.invalid"
+      >
+        Save Changes
+      </button>
+      <button
+        *ngIf="screenAction === MODE.EDIT"
+        mat-raised-button
+        color="primary"
+        (click)="editMode(false)"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

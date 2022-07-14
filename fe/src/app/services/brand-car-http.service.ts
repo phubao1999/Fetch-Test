@@ -17,6 +17,12 @@ export class BrandCarHttpService {
       .pipe(map((data) => this.mappingListBrand(data)));
   }
 
+  getDetailsBrand(id: string): Observable<HttpBaseResponse<CarBrand>> {
+    const url = `${this.baseUrl}/${id}`;
+
+    return this.http.get<HttpBaseResponse<CarBrand>>(url);
+  }
+
   private mappingListBrand(
     data: HttpBaseResponse<any>
   ): HttpBaseResponse<CarBrand[]> {
