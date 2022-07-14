@@ -28,7 +28,7 @@
   </div>
 
   <div *ngIf="listBrand.length > 0" class="brands">
-    <div *ngFor="let brand of listBrand" class="brands__item">
+    <div *ngFor="let brand of listBrand" class="brands__item my-4">
       <div class="brands__item__logo">
         <mat-checkbox class="checkbox-common circle to-center"></mat-checkbox>
         <img [src]="brand.brandLogo" alt="Brand Logo" />

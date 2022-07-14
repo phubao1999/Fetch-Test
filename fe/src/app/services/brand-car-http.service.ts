@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BrandRequest } from '../interface/brand-request.interface';
 import { CarBrand } from '../interface/car-brand.interface';
 import { HttpBaseResponse } from '../interface/http-base-response.interface';
 
@@ -21,6 +22,10 @@ export class BrandCarHttpService {
     const url = `${this.baseUrl}/${id}`;
 
     return this.http.get<HttpBaseResponse<CarBrand[]>>(url);
+  }
+
+  createBrand(body: BrandRequest): Observable<HttpBaseResponse<any>> {
+    return this.http.post<HttpBaseResponse<any>>(this.baseUrl, body);
   }
 
   private mappingListBrand(
