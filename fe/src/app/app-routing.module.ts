@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddDashboardComponent } from './components/add-dashboard/add-dashboard.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { DetailsBrandComponent } from './components/details-brand/details-brand.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'details/:id',
-    component: AddDashboardComponent
+    component: DetailsBrandComponent
   },
   {
     path: '**',

@@ -7,7 +7,7 @@
     <mat-icon>close</mat-icon>
   </div>
 </div>
-<div class="input-zone">
+<div class="input-zone" [formGroup]="formAdd">
   <div class="brand-logo">
     <div class="title">Brand Logo</div>
     <div class="personal-image">
@@ -37,7 +37,14 @@
         <div class="one-item">
           <div class="label">Brand Name</div>
           <mat-form-field class="example-full-width" appearance="outline">
-            <input matInput placeholder="Input Content" />
+            <input
+              matInput
+              placeholder="Input Content"
+              formControlName="brandName"
+            />
+            <mat-error *ngIf="formAdd.controls['brandName'].invalid">
+              required
+            </mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -45,7 +52,7 @@
         <div class="one-item">
           <div class="label">Brand Status</div>
           <mat-form-field appearance="outline">
-            <mat-select>
+            <mat-select formControlName="brandStatus">
               <mat-option
                 *ngFor="let status of statusOptions"
                 [value]="status.value"
@@ -63,7 +70,14 @@
         class="example-full-width full-width"
         appearance="outline"
       >
-        <textarea matInput placeholder="Input Content"></textarea>
+        <textarea
+          matInput
+          placeholder="Input Content"
+          formControlName="brandDescription"
+        ></textarea>
+        <mat-error *ngIf="formAdd.controls['brandDescription'].invalid">
+          required
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -71,6 +85,13 @@
     <button class="margin-x" mat-raised-button (click)="closeDialog()">
       Cancel
     </button>
-    <button mat-raised-button color="primary">Create Brand</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="formAdd.invalid"
+      (click)="addBrand()"
+    >
+      Create Brand
+    </button>
   </div>
 </div>

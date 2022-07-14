@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((result) => {
+      .subscribe((_) => {
         console.log('The dialog was closed');
       });
   }

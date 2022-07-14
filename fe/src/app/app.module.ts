@@ -9,25 +9,29 @@ import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { BrandCarHttpService } from './services/brand-car-http.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddDashboardComponent } from './components/add-dashboard/add-dashboard.component';
+import { DetailsBrandComponent } from './components/details-brand/details-brand.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     AddDashboardComponent,
-    PageNotFoundComponent
+    DetailsBrandComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     MaterialModule,
     RouterModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [BrandCarHttpService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
